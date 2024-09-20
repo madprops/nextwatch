@@ -87,7 +87,7 @@ def save_watched():
         json.dump(watched, f)
 
 
-def toggle_watched(path, name, index):
+def toggle_watched(path, name):
     global watched
 
     if name in watched:
@@ -96,7 +96,7 @@ def toggle_watched(path, name, index):
         watched.append(name)
 
     save_watched()
-    show_paths(path, selected=index)
+    show_paths(path)
 
 
 def set_watched(name):
@@ -120,15 +120,14 @@ def at_root(path):
     return path == config["path"]
 
 
-def show_paths(path, filter_watched=False, selected=-1, direction="forwards"):
+def show_paths(path, filter_watched=False, direction="forwards"):
     if not path.endswith("/"):
         path += "/"
 
-    if selected == -1:
-        if path in indices:
-            selected = indices[path]
-        else:
-            selected = 0
+    if path in indices:
+        selected = indices[path]
+    else:
+        selected = 0
 
     ppath = Path(path)
     allfiles = glob(f"{path}/*")
@@ -198,13 +197,14 @@ def show_paths(path, filter_watched=False, selected=-1, direction="forwards"):
         text=True,
     )
 
-    index, stderr = proc.communicate("\n".join(items))
+    s_index, stderr = proc.communicate("\n".join(items))
     code = proc.returncode
+    index = int(s_index)
 
     if code == 1:
         exit(0)
 
-    ans = items[int(index)].strip()
+    ans = items[index].strip()
 
     if ans == "":
         exit(0)
@@ -231,7 +231,7 @@ def show_paths(path, filter_watched=False, selected=-1, direction="forwards"):
         name = clean_name(ans)
 
         if code == 10:
-            toggle_watched(path, name, index)
+            toggle_watched(path, name)
             return
 
         play_video(str(ppath / name))
