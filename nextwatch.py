@@ -76,6 +76,10 @@ def check_config():
         config["auto_dir"] = True
         changed = True
 
+    if "auto_filter" not in config:
+        config["auto_filter"] = False
+        changed = True
+
     if "watched_icon" not in config:
         config["watched_icon"] = "[W]"
         changed = True
@@ -143,7 +147,7 @@ def at_root(path):
     return path == config["path"]
 
 
-def show_paths(path, filter_watched=False, direction="forwards"):
+def show_paths(path, mode="normal", direction="forwards"):
     if not path.endswith("/"):
         path += "/"
 
@@ -151,6 +155,16 @@ def show_paths(path, filter_watched=False, direction="forwards"):
         selected = indices[path]
     else:
         selected = 0
+
+    if mode == "normal":
+        if config["auto_filter"]:
+            filter_watched = True
+        else:
+            filter_watched = False
+    elif mode == "watched":
+        filter_watched = True
+    elif mode == "all":
+        filter_watched = False
 
     ppath = Path(path)
     allfiles = glob(f"{path}/*")
@@ -249,9 +263,9 @@ def show_paths(path, filter_watched=False, direction="forwards"):
         action = ans[4:]
 
         if action == "Filter":
-            show_paths(path, True)
+            show_paths(path, mode="watched")
         elif action == "All":
-            show_paths(path)
+            show_paths(path, mode="all")
     else:
         name = clean_name(ans)
 

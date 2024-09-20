@@ -34,6 +34,8 @@ You likely will need to edit it.
 
 `auto_dir`: Enter a directory automatically if it's the only option.
 
+`auto_filter`: Filter out watched files automatically.
+
 `watched_icon`: The icon to use on watched files.
 
 ## Actions
@@ -44,7 +46,7 @@ You likely will need to edit it.
 
 ## Shortcuts
 
-`Alt + 1` to toggle `Watched` on items.
+`Alt + 1` to toggle `Watched` on files.
 
 ## Watched
 
