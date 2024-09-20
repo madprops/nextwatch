@@ -11,6 +11,11 @@ config_path = Path("~/.config/nextwatch/config.toml").expanduser()
 watched = []
 watched_path = Path("~/.config/nextwatch/watched.json").expanduser()
 
+allowed = [
+    "mp4", "webm", "avi", "m4v", "mpeg",
+    "flv", "mov", "mkv", "wmv", "vob", "ogv",
+]
+
 
 def read_config():
     global config
@@ -30,7 +35,7 @@ def read_watched():
         watched = json.load(f)
 
 
-def show_paths(path, filter_watched = False):
+def show_paths(path, filter_watched=False):
     allfiles = glob(f"{str(path)}/*")
     onlydirs = [f for f in allfiles if (path / Path(f)).is_dir()]
     onlyfiles = [f for f in allfiles if (path / Path(f)).is_file()]
@@ -47,7 +52,7 @@ def show_paths(path, filter_watched = False):
         items.append(f"[+] {Path(d).name}")
 
     for f in onlyfiles:
-        if f.endswith(".torrent"):
+        if Path(f).suffix[1:].lower() not in allowed:
             continue
 
         name = f"{Path(f).name}"
