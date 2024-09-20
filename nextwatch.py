@@ -112,7 +112,7 @@ def save_watched():
         json.dump(watched, f)
 
 
-def toggle_watched(path, name):
+def toggle_watched(path, name, mode):
     global watched
 
     if name in watched:
@@ -121,7 +121,7 @@ def toggle_watched(path, name):
         watched.append(name)
 
     save_watched()
-    show_paths(path)
+    show_paths(path, mode=mode)
 
 
 def set_watched(name):
@@ -270,7 +270,7 @@ def show_paths(path, mode="normal", direction="forwards"):
         name = clean_name(ans)
 
         if code == 10:
-            toggle_watched(path, name)
+            toggle_watched(path, name, mode)
             return
 
         play_video(str(ppath / name))
