@@ -12,8 +12,17 @@ watched = []
 watched_path = Path("~/.config/nextwatch/watched.json").expanduser()
 
 allowed = [
-    "mp4", "webm", "avi", "m4v", "mpeg",
-    "flv", "mov", "mkv", "wmv", "vob", "ogv",
+    "mp4",
+    "webm",
+    "avi",
+    "m4v",
+    "mpeg",
+    "flv",
+    "mov",
+    "mkv",
+    "wmv",
+    "vob",
+    "ogv",
 ]
 
 
@@ -104,7 +113,10 @@ def show_paths(path, filter_watched=False, selected=0):
 
     proc = Popen(
         f"rofi -dmenu -i -format i -inputchange-action 'kb-row-first' keys -kb-accept-alt '' -p '{info}' -selected-row {selected}",
-        stdout=PIPE, stdin=PIPE, shell=True, text=True
+        stdout=PIPE,
+        stdin=PIPE,
+        shell=True,
+        text=True,
     )
 
     index, stderr = proc.communicate("\n".join(items))
