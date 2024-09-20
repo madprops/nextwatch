@@ -32,10 +32,37 @@ def read_watched():
             f.write("[]")
 
     with watched_path.open("r") as f:
-        watched = json.load(f)
+        try:
+            watched = json.load(f)
+        except:
+            watched = []
 
 
-def show_paths(path, filter_watched=False):
+def save_watched():
+    with watched_path.open("w") as f:
+        json.dump(watched, f)
+
+
+def toggle_watched(path, name, index):
+    global watched
+
+    if name in watched:
+        watched.remove(name)
+    else:
+        watched.append(name)
+
+    save_watched()
+    show_paths(path, selected=index)
+
+
+def clean_watched(name):
+    if name.startswith("[W] "):
+        name = name[4:]
+
+    return name.strip()
+
+
+def show_paths(path, filter_watched=False, selected=0):
     allfiles = glob(f"{str(path)}/*")
     onlydirs = [f for f in allfiles if (path / Path(f)).is_dir()]
     onlyfiles = [f for f in allfiles if (path / Path(f)).is_file()]
@@ -73,16 +100,23 @@ def show_paths(path, filter_watched=False):
 
         items.append(name)
 
+    info = "Alt+1 = Toggle Watched"
+
     proc = Popen(
-        f"rofi -dmenu -i -p '{path}'", stdout=PIPE, stdin=PIPE, shell=True, text=True
+        f"rofi -dmenu -i -format i -inputchange-action 'kb-row-first' keys -kb-accept-alt '' -p '{info}' -selected-row {selected}",
+        stdout=PIPE, stdin=PIPE, shell=True, text=True
     )
 
-    ans = proc.communicate("\n".join(items))[0].strip()
+    index, stderr = proc.communicate("\n".join(items))
+    code = proc.returncode
+
+    if code == 1:
+        exit(0)
+
+    ans = items[int(index)].strip()
 
     if ans == "":
         exit(0)
-
-    ans = ans.strip()
 
     if ans == "..":
         show_paths(Path(path).parent)
@@ -98,8 +132,11 @@ def show_paths(path, filter_watched=False):
         elif action == "All":
             show_paths(path)
     else:
-        if ans.startswith("[W] "):
-            ans = ans[4:].strip()
+        ans = clean_watched(ans)
+
+        if code == 10:
+            toggle_watched(path, ans, index)
+            return
 
         Popen([config["player"], str(path / ans)])
 
@@ -107,8 +144,7 @@ def show_paths(path, filter_watched=False):
             if ans not in watched:
                 watched.append(ans)
 
-            with watched_path.open("w") as f:
-                json.dump(watched, f)
+            save_watched()
 
 
 if __name__ == "__main__":
