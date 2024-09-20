@@ -25,6 +25,8 @@ allowed = [
     "ogv",
 ]
 
+indices = {}
+
 
 def read_config():
     global config
@@ -118,9 +120,15 @@ def at_root(path):
     return path == config["path"]
 
 
-def show_paths(path, filter_watched=False, selected=0, direction="forwards"):
+def show_paths(path, filter_watched=False, selected=-1, direction="forwards"):
     if not path.endswith("/"):
         path += "/"
+
+    if selected == -1:
+        if path in indices:
+            selected = indices[path]
+        else:
+            selected = 0
 
     ppath = Path(path)
     allfiles = glob(f"{path}/*")
@@ -200,6 +208,8 @@ def show_paths(path, filter_watched=False, selected=0, direction="forwards"):
 
     if ans == "":
         exit(0)
+
+    indices[path] = index
 
     if ans == "..":
         if not at_root(path):
