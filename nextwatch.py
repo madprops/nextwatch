@@ -1,4 +1,4 @@
-nimport json
+import json
 import tomllib
 from glob import glob
 from subprocess import Popen, PIPE
