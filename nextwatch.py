@@ -64,7 +64,7 @@ def toggle_watched(path, name, index):
     show_paths(path, selected=index)
 
 
-def clean_watched(name):
+def clean_name(name):
     if name.startswith("[W] "):
         name = name[4:]
 
@@ -144,17 +144,17 @@ def show_paths(path, filter_watched=False, selected=0):
         elif action == "All":
             show_paths(path)
     else:
-        ans = clean_watched(ans)
+        name = clean_name(ans)
 
         if code == 10:
-            toggle_watched(path, ans, index)
+            toggle_watched(path, name, index)
             return
 
-        Popen([config["player"], str(path / ans)])
+        Popen([config["player"], str(path / name)])
 
         with watched_path.open("r") as f:
-            if ans not in watched:
-                watched.append(ans)
+            if name not in watched:
+                watched.append(name)
 
             save_watched()
 
