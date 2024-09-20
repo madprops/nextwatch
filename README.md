@@ -18,7 +18,7 @@ Press enter to launch the file with a video player.
 
 ## Config
 
-Config file located at:
+The config file is located at:
 
 `~/.config/nextwatch/config.json`
 
