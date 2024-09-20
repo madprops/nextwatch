@@ -42,6 +42,10 @@ def read_config():
     if "path" not in config:
         init_config()
 
+    if not config["path"].endswith("/"):
+        config["path"] += "/"
+        save_config()
+
 
 def init_config():
     global config
@@ -111,6 +115,9 @@ def play_video(path):
 
 
 def show_paths(path, filter_watched=False, selected=0, direction = "forwards"):
+    if not path.endswith("/"):
+        path += "/"
+
     ppath = Path(path)
     allfiles = glob(f"{path}/*")
     onlydirs = [f for f in allfiles if (ppath / Path(f)).is_dir()]
@@ -137,12 +144,12 @@ def show_paths(path, filter_watched=False, selected=0, direction = "forwards"):
 
     if (len(files) == 0) and (len(dirs) == 1):
         if config["auto_dir"] and (direction == "forwards"):
-            show_paths(Path(dirs[0]))
+            show_paths(dirs[0])
             return
 
     items = []
 
-    if path != "/":
+    if (path != "/") and (path != config["path"]):
         items.append("..")
 
     if len(files) > 0:
