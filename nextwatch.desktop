@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Name=nextwatch
+Exec=python /path/to/nextwatch.py
+Icon=application-x-executable
+StartupNotify=true
+Terminal=false
+Type=Application
