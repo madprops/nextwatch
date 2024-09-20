@@ -43,10 +43,8 @@ def read_config():
 
     if "path" not in config:
         init_config()
-
-    if not config["path"].endswith("/"):
-        config["path"] += "/"
-        save_config()
+    else:
+        check_config()
 
 
 def init_config():
@@ -54,12 +52,27 @@ def init_config():
 
     config = {
         "path": "~/videos",
-        "player": "haruna",
-        "auto_watch": True,
-        "auto_dir": True,
     }
 
+    check_config()
     save_config()
+
+
+def check_config():
+    if not config["path"].endswith("/"):
+        config["path"] += "/"
+
+    if "player" not in config:
+        config["player"] = "haruna"
+
+    if "auto_watch" not in config:
+        config["auto_watch"] = True
+
+    if "auto_dir" not in config:
+        config["auto_dir"] = True
+
+    if "watched_icon" not in config:
+        config["watched_icon"] = "[W]"
 
 
 def save_config():
@@ -106,8 +119,10 @@ def set_watched(name):
 
 
 def clean_name(name):
-    if name.startswith("[W] "):
-        name = name[4:]
+    icon = config["watched_icon"]
+
+    if name.startswith(f"{icon} "):
+        name = name[len(icon) + 1 :]
 
     return name.strip()
 
@@ -176,6 +191,8 @@ def show_paths(path, filter_watched=False, direction="forwards"):
     for d in dirs:
         items.append(f"[+] {Path(d).name}")
 
+    icon = config["watched_icon"]
+
     for f in files:
         name = f"{Path(f).name}"
 
@@ -183,7 +200,7 @@ def show_paths(path, filter_watched=False, direction="forwards"):
             if filter_watched:
                 continue
 
-            name = f"[W] {name}"
+            name = f"{icon} {name}"
 
         items.append(name)
 

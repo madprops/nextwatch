@@ -34,6 +34,8 @@ You likely will need to edit it.
 
 `auto_dir`: Enter a directory automatically if it's the only option.
 
+`watched_icon`: The icon to use on watched files.
+
 ## Actions
 
 `[!] Filter` to filter out watched files.
