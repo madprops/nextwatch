@@ -46,6 +46,10 @@ You likely will need to edit it.
 
 ## Watched
 
+A file is determined to be watched if you select it through this interface.
+
+Or if you mark it as watched manually with the shortcut.
+
 When you select a file it is added to:
 
 `~/.config/nextwatch/watched.json`
