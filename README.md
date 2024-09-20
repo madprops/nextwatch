@@ -1,5 +1,7 @@
 ![](image.jpg)
 
+Install [rofi](https://github.com/davatorium/rofi) to display the interface
+
 Create `~/.config/nextwatch/config.toml`
 
 Set `path = "/path/to/videos/main/dir"`
