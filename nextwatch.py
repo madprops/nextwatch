@@ -147,9 +147,15 @@ def show_paths(path, filter_watched=False, selected=0, direction = "forwards"):
             files.append(f)
 
     if (len(files) == 0) and (len(dirs) == 1):
-        if config["auto_dir"] and (direction == "forwards"):
-            show_paths(dirs[0])
-            return
+        if config["auto_dir"]:
+            if direction == "forwards":
+                show_paths(dirs[0])
+                return
+            elif direction == "back":
+                if not at_root(path):
+                    show_paths(str(ppath.parent), direction="back")
+
+                return
 
     items = []
     items.append("..")
