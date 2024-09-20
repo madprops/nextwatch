@@ -4,7 +4,6 @@ from glob import glob
 from subprocess import Popen, PIPE
 from pathlib import Path
 
-
 config = {}
 config_path = Path("~/.config/nextwatch/config.json").expanduser()
 
