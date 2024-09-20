@@ -30,7 +30,7 @@ def read_watched():
         watched = json.load(f)
 
 
-def show_paths(path):
+def show_paths(path, filter_watched = False):
     allfiles = glob(f"{str(path)}/*")
     onlydirs = [f for f in allfiles if (path / Path(f)).is_dir()]
     onlyfiles = [f for f in allfiles if (path / Path(f)).is_file()]
@@ -40,6 +40,8 @@ def show_paths(path):
 
     if str(path) != "/":
         items.append("..")
+
+    items.append("[!] Filter")
 
     for d in onlydirs:
         items.append(f"[+] {Path(d).name}")
@@ -51,6 +53,9 @@ def show_paths(path):
         name = f"{Path(f).name}"
 
         if name in watched:
+            if filter_watched:
+                continue
+
             name = f"[W] {name}"
 
         items.append(name)
@@ -72,6 +77,11 @@ def show_paths(path):
         show_paths(Path(ans).expanduser())
     elif ans.startswith("[+] "):
         show_paths(Path(path) / ans[4:])
+    elif ans.startswith("[!] "):
+        action = ans[4:]
+
+        if action == "Filter":
+            show_paths(path, True)
     else:
         if ans.startswith("[W] "):
             ans = ans[4:].strip()
