@@ -1,6 +1,6 @@
 ![](image.jpg)
 
-Create ~/.config/nextwatch/config.toml
+Create `~/.config/nextwatch/config.toml`
 
 Set `path = "/path/to/videos/main/dir"`
 
