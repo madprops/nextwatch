@@ -114,6 +114,10 @@ def play_video(path):
     Popen([config["player"], path])
 
 
+def at_root(path):
+    return path == config["path"]
+
+
 def show_paths(path, filter_watched=False, selected=0, direction = "forwards"):
     if not path.endswith("/"):
         path += "/"
@@ -148,9 +152,7 @@ def show_paths(path, filter_watched=False, selected=0, direction = "forwards"):
             return
 
     items = []
-
-    if (path != "/") and (path != config["path"]):
-        items.append("..")
+    items.append("..")
 
     if len(files) > 0:
         if filter_watched:
@@ -194,7 +196,10 @@ def show_paths(path, filter_watched=False, selected=0, direction = "forwards"):
         exit(0)
 
     if ans == "..":
-        show_paths(str(ppath.parent), direction="back")
+        if not at_root(path):
+            show_paths(str(ppath.parent), direction="back")
+        else:
+            show_paths(path)
     elif ans.startswith("/") or ans.startswith("~"):
         show_paths(str(Path(ans).expanduser()))
     elif ans.startswith("[+] "):
