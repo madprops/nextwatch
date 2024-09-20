@@ -76,7 +76,7 @@ def show_paths(path):
         if ans.startswith("[W] "):
             ans = ans[4:].strip()
 
-        Popen(["haruna", str(path / ans)])
+        Popen([config["player"], str(path / ans)])
 
         with watched_path.open("r") as f:
             if ans not in watched:

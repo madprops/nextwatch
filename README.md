@@ -1,6 +1,10 @@
+![](image.jpg)
+
 Create ~/.config/nextwatch/config.toml
 
-Set path = /path/to/videos/main/dir
+Set `path = "/path/to/videos/main/dir"`
+
+Set `player = "haruna"`
 
 Run nextwatch, choose a file
 
