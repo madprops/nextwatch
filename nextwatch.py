@@ -199,11 +199,11 @@ def show_paths(path, filter_watched=False, direction="forwards"):
 
     s_index, stderr = proc.communicate("\n".join(items))
     code = proc.returncode
-    index = int(s_index)
 
     if code == 1:
         exit(0)
 
+    index = int(s_index)
     ans = items[index].strip()
 
     if ans == "":
