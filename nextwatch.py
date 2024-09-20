@@ -5,7 +5,7 @@ from pathlib import Path
 
 
 config = {}
-config_path = Path("~/.config/nextwatch/config.toml").expanduser()
+config_path = Path("~/.config/nextwatch/config.json").expanduser()
 
 watched = []
 watched_path = Path("~/.config/nextwatch/watched.json").expanduser()
