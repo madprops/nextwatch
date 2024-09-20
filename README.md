@@ -26,23 +26,23 @@ This is created on first launch if not existent.
 
 You likely will need to edit it.
 
-`path`: The path to the main video directory
+`path`: The path to the main video directory.
 
-`player`: The name of the video player
+`player`: The name of the video player.
 
-`auto_watch`: Auto-mark selected files as watched
+`auto_watch`: Auto-mark selected files as watched.
 
-`auto_dir`: Enter a directory automatically if it's the only option
+`auto_dir`: Enter a directory automatically if it's the only option.
 
 ## Actions
 
-`[!] Filter` to filter out watched files
+`[!] Filter` to filter out watched files.
 
-`[!] All` to show all files
+`[!] All` to show all files.
 
 ## Shortcuts
 
-Alt + 1 to toggle `Watched` on items.
+`Alt + 1` to toggle `Watched` on items.
 
 ## Watched
 
