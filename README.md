@@ -15,3 +15,5 @@ Watched files will have [W] at the start of the name
 When you select a file it is added to `~/.config/nextwatch/watched.json`
 
 There's a `[!] Filter` action to filter out watched files
+
+Alt + 1 to toggle `Watched` on items
