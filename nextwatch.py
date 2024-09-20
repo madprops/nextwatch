@@ -176,11 +176,11 @@ def show_paths(path, filter_watched=False, selected=0):
         exit(0)
 
     if ans == "..":
-        show_paths(ppath.parent)
+        show_paths(str(ppath.parent))
     elif ans.startswith("/") or ans.startswith("~"):
-        show_paths(Path(ans).expanduser())
+        show_paths(str(Path(ans).expanduser()))
     elif ans.startswith("[+] "):
-        show_paths(ppath / ans[4:])
+        show_paths(str(ppath / ans[4:]))
     elif ans.startswith("[!] "):
         action = ans[4:]
 
