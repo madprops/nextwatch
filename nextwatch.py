@@ -109,7 +109,7 @@ def play_video(path):
     Popen([config["player"], path])
 
 
-def show_paths(path, filter_watched=False, selected=0):
+def show_paths(path, filter_watched=False, selected=0, direction = "forwards"):
     ppath = Path(path)
     allfiles = glob(f"{path}/*")
     onlydirs = [f for f in allfiles if (ppath / Path(f)).is_dir()]
@@ -123,11 +123,10 @@ def show_paths(path, filter_watched=False, selected=0):
         if Path(f).suffix[1:].lower() in allowed:
             files.append(f)
 
-    if len(files) == 0:
-        if len(onlydirs) == 1:
-            if config["auto_dir"]:
-                show_paths(Path(onlydirs[0]))
-                return
+    if (len(files) == 0) and (len(onlydirs) == 1):
+        if config["auto_dir"] and (direction == "forwards"):
+            show_paths(Path(onlydirs[0]))
+            return
 
     items = []
 
@@ -176,7 +175,7 @@ def show_paths(path, filter_watched=False, selected=0):
         exit(0)
 
     if ans == "..":
-        show_paths(str(ppath.parent))
+        show_paths(str(ppath.parent), direction="back")
     elif ans.startswith("/") or ans.startswith("~"):
         show_paths(str(Path(ans).expanduser()))
     elif ans.startswith("[+] "):
