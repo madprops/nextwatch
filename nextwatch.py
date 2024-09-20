@@ -123,8 +123,8 @@ def show_paths(path, filter_watched=False, selected=0):
         if Path(f).suffix[1:].lower() in allowed:
             files.append(f)
 
-    if (len(files) == 0):
-        if (len(onlydirs) == 1):
+    if len(files) == 0:
+        if len(onlydirs) == 1:
             if config["auto_dir"]:
                 show_paths(Path(onlydirs[0]))
                 return
