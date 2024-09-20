@@ -45,6 +45,9 @@ def show_paths(path):
         items.append(f"[+] {Path(d).name}")
 
     for f in onlyfiles:
+        if f.endswith(".torrent"):
+            continue
+
         name = f"{Path(f).name}"
 
         if name in watched:
