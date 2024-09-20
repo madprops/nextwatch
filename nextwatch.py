@@ -1,3 +1,4 @@
+import os
 import json
 from glob import glob
 from subprocess import Popen, PIPE
@@ -113,19 +114,30 @@ def show_paths(path, filter_watched=False, selected=0, direction = "forwards"):
     ppath = Path(path)
     allfiles = glob(f"{path}/*")
     onlydirs = [f for f in allfiles if (ppath / Path(f)).is_dir()]
-    onlyfiles = [f for f in allfiles if (ppath / Path(f)).is_file()]
-    onlydirs.sort(key=lambda x: Path(x).name)
-    onlyfiles.sort(key=lambda x: Path(x).name)
+    dirs = []
 
+    for d in onlydirs:
+        all_d_files = glob(os.path.join(d, "**", "*"), recursive=True)
+
+        for f in all_d_files:
+            ext = Path(f).suffix[1:].lower()
+
+            if ext in allowed:
+                dirs.append(d)
+                break
+
+    onlyfiles = [f for f in allfiles if (ppath / Path(f)).is_file()]
+    dirs.sort(key=lambda x: Path(x).name)
+    onlyfiles.sort(key=lambda x: Path(x).name)
     files = []
 
     for f in onlyfiles:
         if Path(f).suffix[1:].lower() in allowed:
             files.append(f)
 
-    if (len(files) == 0) and (len(onlydirs) == 1):
+    if (len(files) == 0) and (len(dirs) == 1):
         if config["auto_dir"] and (direction == "forwards"):
-            show_paths(Path(onlydirs[0]))
+            show_paths(Path(dirs[0]))
             return
 
     items = []
@@ -139,7 +151,7 @@ def show_paths(path, filter_watched=False, selected=0, direction = "forwards"):
         else:
             items.append("[!] Filter")
 
-    for d in onlydirs:
+    for d in dirs:
         items.append(f"[+] {Path(d).name}")
 
     for f in files:

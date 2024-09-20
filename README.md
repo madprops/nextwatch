@@ -49,3 +49,9 @@ You likely will need to edit it.
 When you select a file it is added to:
 
 `~/.config/nextwatch/watched.json`
+
+## Ignore Dirs
+
+Every dir is checked recursively for the existence of a video file.
+
+If a dir doesn't contain a video file it is not shown.
