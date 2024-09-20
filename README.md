@@ -2,7 +2,9 @@
 
 Install [rofi](https://github.com/davatorium/rofi) to display the interface
 
-Create `~/.config/nextwatch/config.toml`
+Config: `~/.config/nextwatch/config.json`
+
+This is created on first launch if not existent
 
 Set `path = "/path/to/videos"`
 

@@ -1,5 +1,4 @@
 import json
-import tomllib
 from glob import glob
 from subprocess import Popen, PIPE
 from pathlib import Path
@@ -29,8 +28,36 @@ allowed = [
 def read_config():
     global config
 
-    with config_path.open("rb") as f:
-        config = tomllib.load(f)
+    if not config_path.exists():
+        with config_path.open("w") as f:
+            f.write("{}")
+
+    with config_path.open("r") as f:
+        try:
+            config = json.load(f)
+        except:
+            init_config()
+
+    if "path" not in config:
+        init_config()
+
+
+def init_config():
+    global config
+
+    config = {
+        "path": "~/videos",
+        "player": "haruna",
+        "auto_watch": True,
+        "auto_dir": True,
+    }
+
+    save_config()
+
+
+def save_config():
+    with config_path.open("w") as f:
+        json.dump(config, f)
 
 
 def read_watched():
@@ -45,6 +72,7 @@ def read_watched():
             watched = json.load(f)
         except:
             watched = []
+            save_watched()
 
 
 def save_watched():
@@ -64,6 +92,12 @@ def toggle_watched(path, name, index):
     show_paths(path, selected=index)
 
 
+def set_watched(name):
+    if name not in watched:
+        watched.append(name)
+        save_watched()
+
+
 def clean_name(name):
     if name.startswith("[W] "):
         name = name[4:]
@@ -71,10 +105,15 @@ def clean_name(name):
     return name.strip()
 
 
+def play_video(path):
+    Popen([config["player"], path])
+
+
 def show_paths(path, filter_watched=False, selected=0):
-    allfiles = glob(f"{str(path)}/*")
-    onlydirs = [f for f in allfiles if (path / Path(f)).is_dir()]
-    onlyfiles = [f for f in allfiles if (path / Path(f)).is_file()]
+    ppath = Path(path)
+    allfiles = glob(f"{path}/*")
+    onlydirs = [f for f in allfiles if (ppath / Path(f)).is_dir()]
+    onlyfiles = [f for f in allfiles if (ppath / Path(f)).is_file()]
     onlydirs.sort(key=lambda x: Path(x).name)
     onlyfiles.sort(key=lambda x: Path(x).name)
 
@@ -86,12 +125,13 @@ def show_paths(path, filter_watched=False, selected=0):
 
     if (len(files) == 0):
         if (len(onlydirs) == 1):
-            show_paths(Path(onlydirs[0]))
-            return
+            if config["auto_dir"]:
+                show_paths(Path(onlydirs[0]))
+                return
 
     items = []
 
-    if str(path) != "/":
+    if path != "/":
         items.append("..")
 
     if len(files) > 0:
@@ -136,11 +176,11 @@ def show_paths(path, filter_watched=False, selected=0):
         exit(0)
 
     if ans == "..":
-        show_paths(Path(path).parent)
+        show_paths(ppath.parent)
     elif ans.startswith("/") or ans.startswith("~"):
         show_paths(Path(ans).expanduser())
     elif ans.startswith("[+] "):
-        show_paths(Path(path) / ans[4:])
+        show_paths(ppath / ans[4:])
     elif ans.startswith("[!] "):
         action = ans[4:]
 
@@ -155,16 +195,13 @@ def show_paths(path, filter_watched=False, selected=0):
             toggle_watched(path, name, index)
             return
 
-        Popen([config["player"], str(path / name)])
+        play_video(str(ppath / name))
 
-        with watched_path.open("r") as f:
-            if name not in watched:
-                watched.append(name)
-
-            save_watched()
+        if config["auto_watch"]:
+            set_watched(name)
 
 
 if __name__ == "__main__":
     read_config()
     read_watched()
-    show_paths(Path(config["path"]))
+    show_paths(config["path"])
