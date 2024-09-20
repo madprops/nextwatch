@@ -6,7 +6,7 @@ Create `~/.config/nextwatch/config.toml`
 
 Set `path = "/path/to/videos"`
 
-Set `player = "haruna"`
+Set `player = "yourVideoPlayer"`
 
 Run nextwatch, choose a file
 
