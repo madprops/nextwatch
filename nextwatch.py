@@ -43,8 +43,8 @@ def read_config():
 
     if "path" not in config:
         init_config()
-    else:
-        check_config()
+    elif check_config():
+        save_config()
 
 
 def init_config():
@@ -59,20 +59,29 @@ def init_config():
 
 
 def check_config():
+    changed = False
+
     if not config["path"].endswith("/"):
         config["path"] += "/"
+        changed = True
 
     if "player" not in config:
         config["player"] = "haruna"
+        changed = True
 
     if "auto_watch" not in config:
         config["auto_watch"] = True
+        changed = True
 
     if "auto_dir" not in config:
         config["auto_dir"] = True
+        changed = True
 
     if "watched_icon" not in config:
         config["watched_icon"] = "[W]"
+        changed = True
+
+    return changed
 
 
 def save_config():
