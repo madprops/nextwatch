@@ -8,9 +8,11 @@ You configure it to start browsing on a main video directory. With rofi you navi
 
 Install [rofi](https://github.com/davatorium/rofi) to display the interface.
 
-Run nextwatch, choose a file.
+Run nextwatch and navigate to a file.
 
-Watched files will have [W] at the start of the name.
+Watched files will have `[W]` at the start of the name.
+
+Press enter to launch the file with a video player.
 
 ---
 
