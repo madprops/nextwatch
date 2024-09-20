@@ -41,20 +41,28 @@ def show_paths(path, filter_watched=False):
     onlyfiles = [f for f in allfiles if (path / Path(f)).is_file()]
     onlydirs.sort(key=lambda x: Path(x).name)
     onlyfiles.sort(key=lambda x: Path(x).name)
+
+    files = []
+
+    for f in onlyfiles:
+        if Path(f).suffix[1:].lower() in allowed:
+            files.append(f)
+
     items = []
 
     if str(path) != "/":
         items.append("..")
 
-    items.append("[!] Filter")
+    if len(files) > 0:
+        if filter_watched:
+            items.append("[!] All")
+        else:
+            items.append("[!] Filter")
 
     for d in onlydirs:
         items.append(f"[+] {Path(d).name}")
 
-    for f in onlyfiles:
-        if Path(f).suffix[1:].lower() not in allowed:
-            continue
-
+    for f in files:
         name = f"{Path(f).name}"
 
         if name in watched:
@@ -87,6 +95,8 @@ def show_paths(path, filter_watched=False):
 
         if action == "Filter":
             show_paths(path, True)
+        elif action == "All":
+            show_paths(path)
     else:
         if ans.startswith("[W] "):
             ans = ans[4:].strip()
