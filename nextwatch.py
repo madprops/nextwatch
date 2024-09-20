@@ -118,7 +118,7 @@ def at_root(path):
     return path == config["path"]
 
 
-def show_paths(path, filter_watched=False, selected=0, direction = "forwards"):
+def show_paths(path, filter_watched=False, selected=0, direction="forwards"):
     if not path.endswith("/"):
         path += "/"
 
