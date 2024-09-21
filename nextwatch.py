@@ -84,6 +84,10 @@ def check_config():
         config["watched_icon"] = "[W]"
         changed = True
 
+    if "arrow_select" not in config:
+        config["arrow_select"] = False
+        changed = True
+
     return changed
 
 
@@ -284,8 +288,9 @@ def show_paths(path, mode="normal", direction="forwards"):
             show_paths(path, mode="all")
     else:
         if code == 21:
-            show_paths(path)
-            return
+            if not config["arrow_select"]:
+                show_paths(path)
+                return
 
         name = clean_name(ans)
 

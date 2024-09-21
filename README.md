@@ -38,6 +38,8 @@ You likely will need to edit it.
 
 `watched_icon`: The icon to use on watched files.
 
+`arrow_select`: Play videos when using Right arrow as well.
+
 ## Actions
 
 `[!] Filter` to filter out watched files.
