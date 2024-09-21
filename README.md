@@ -76,6 +76,8 @@ You can override the `path` config by sending a path as the argument:
 
 There's an example desktop file you can use.
 
+Edit it first, then do:
+
 `cp nextwatch.desktop ~/.local/share/applications/.`
 
 So you can launch it easily.
