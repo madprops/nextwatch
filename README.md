@@ -74,10 +74,10 @@ You can override the `path` config by sending a path as the argument:
 
 ## Desktop File
 
-There's an example desktop file you can use.
-
-Edit it first, then do:
+There's an example desktop file you can use:
 
 `cp nextwatch.desktop ~/.local/share/applications/.`
 
-So you can launch it easily.
+Then edit it to point to the nextwatch.py file.
+
+This way you can launch it easily.
