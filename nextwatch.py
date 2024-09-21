@@ -233,7 +233,9 @@ def show_paths(path, mode="normal", direction="forwards"):
     -inputchange-action 'kb-row-first'
     keys -kb-accept-alt ''
     -kb-move-char-back ''
+    -kb-move-char-forward ''
     -kb-custom-11 'Left'
+    -kb-custom-12 'Right'
     -p '{info}'
     -selected-row {selected}
     """
@@ -269,7 +271,7 @@ def show_paths(path, mode="normal", direction="forwards"):
             show_paths(path)
     elif ans.startswith("/") or ans.startswith("~"):
         show_paths(str(Path(ans).expanduser()))
-    elif ans.startswith("[+] "):
+    elif ans.startswith("[+] ") or (code == 21):
         show_paths(str(ppath / ans[4:]))
     elif ans.startswith("[!] "):
         action = ans[4:]
