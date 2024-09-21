@@ -197,6 +197,7 @@ def show_paths(path, mode="normal", direction="forwards"):
                 return
             elif direction == "back":
                 if not at_root(path):
+                    indices[path] = 0
                     show_paths(str(ppath.parent), direction="back")
 
                 return
@@ -266,12 +267,13 @@ def show_paths(path, mode="normal", direction="forwards"):
 
     if ans == ".." or (code == 20):
         if not at_root(path):
+            indices[path] = 0
             show_paths(str(ppath.parent), direction="back")
         else:
             show_paths(path)
     elif ans.startswith("/") or ans.startswith("~"):
         show_paths(str(Path(ans).expanduser()))
-    elif ans.startswith("[+] ") or (code == 21):
+    elif ans.startswith("[+] "):
         show_paths(str(ppath / ans[4:]))
     elif ans.startswith("[!] "):
         action = ans[4:]
@@ -281,6 +283,10 @@ def show_paths(path, mode="normal", direction="forwards"):
         elif action == "All":
             show_paths(path, mode="all")
     else:
+        if code == 21:
+            show_paths(path)
+            return
+
         name = clean_name(ans)
 
         if code == 10:
