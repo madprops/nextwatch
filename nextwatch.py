@@ -228,8 +228,20 @@ def show_paths(path, mode="normal", direction="forwards"):
 
     info = "Alt+1 = Toggle Watched"
 
+    rofi_cmd = f"""
+    rofi -dmenu -i -format i
+    -inputchange-action 'kb-row-first'
+    keys -kb-accept-alt ''
+    -kb-move-char-back ''
+    -kb-custom-11 'Left'
+    -p '{info}'
+    -selected-row {selected}
+    """
+
+    rofi_cmd = " ".join(rofi_cmd.strip().split())
+
     proc = Popen(
-        f"rofi -dmenu -i -format i -inputchange-action 'kb-row-first' keys -kb-accept-alt '' -p '{info}' -selected-row {selected}",
+        rofi_cmd,
         stdout=PIPE,
         stdin=PIPE,
         shell=True,
@@ -250,7 +262,7 @@ def show_paths(path, mode="normal", direction="forwards"):
 
     indices[path] = index
 
-    if ans == "..":
+    if ans == ".." or (code == 20):
         if not at_root(path):
             show_paths(str(ppath.parent), direction="back")
         else:
