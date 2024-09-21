@@ -65,3 +65,9 @@ When you select a file it is added to:
 Every dir is checked recursively for the existence of a video file.
 
 If a dir doesn't contain a video file it is not shown.
+
+## Arguments
+
+You can override the `path` config by sending a path as the argument:
+
+`nextwatch "/path/to/some/videos"`

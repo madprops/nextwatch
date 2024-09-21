@@ -1,5 +1,6 @@
 import os
 import json
+import sys
 from glob import glob
 from subprocess import Popen, PIPE
 from pathlib import Path
@@ -25,6 +26,8 @@ allowed = [
 ]
 
 indices = {}
+
+root_path = ""
 
 
 def read_config():
@@ -148,7 +151,7 @@ def play_video(path):
 
 
 def at_root(path):
-    return path == config["path"]
+    return path == root_path
 
 
 def show_paths(path, mode="normal", direction="forwards"):
@@ -304,7 +307,22 @@ def show_paths(path, mode="normal", direction="forwards"):
             set_watched(name)
 
 
-if __name__ == "__main__":
+def main():
+    global root_path
+
     read_config()
+
+    if len(sys.argv) > 1:
+        root_path = sys.argv[1]
+    else:
+        root_path = config["path"]
+
+    if not root_path.endswith("/"):
+        root_path += "/"
+
     read_watched()
-    show_paths(config["path"])
+    show_paths(root_path)
+
+
+if __name__ == "__main__":
+    main()
