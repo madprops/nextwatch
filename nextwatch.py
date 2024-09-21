@@ -91,6 +91,10 @@ def check_config():
         config["arrow_select"] = False
         changed = True
 
+    if "ignore_dirs" not in config:
+        config["ignore_dirs"] = True
+        changed = True
+
     return changed
 
 
@@ -178,15 +182,18 @@ def show_paths(path, mode="normal", direction="forwards"):
     onlydirs = [f for f in allfiles if (ppath / Path(f)).is_dir()]
     dirs = []
 
-    for d in onlydirs:
-        all_d_files = glob(os.path.join(d, "**", "*"), recursive=True)
+    if config["ignore_dirs"]:
+        for d in onlydirs:
+            all_d_files = glob(os.path.join(d, "**", "*"), recursive=True)
 
-        for f in all_d_files:
-            ext = Path(f).suffix[1:].lower()
+            for f in all_d_files:
+                ext = Path(f).suffix[1:].lower()
 
-            if ext in allowed:
-                dirs.append(d)
-                break
+                if ext in allowed:
+                    dirs.append(d)
+                    break
+    else:
+        dirs = onlydirs
 
     onlyfiles = [f for f in allfiles if (ppath / Path(f)).is_file()]
     dirs.sort(key=lambda x: Path(x).name)

@@ -40,6 +40,8 @@ You likely will need to edit it.
 
 `arrow_select`: Play videos when using Right arrow as well.
 
+`ignore_dirs`: Ignore directories that don't contain videos inside.
+
 ## Actions
 
 `[!] Filter` to filter out watched files.
@@ -59,12 +61,6 @@ Or if you mark it as watched manually with the shortcut.
 When you select a file it is added to:
 
 `~/.config/nextwatch/watched.json`
-
-## Ignore Dirs
-
-Every dir is checked recursively for the existence of a video file.
-
-If a dir doesn't contain a video file it is not shown.
 
 ## Arguments
 
