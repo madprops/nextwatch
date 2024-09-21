@@ -71,3 +71,11 @@ If a dir doesn't contain a video file it is not shown.
 You can override the `path` config by sending a path as the argument:
 
 `nextwatch "/path/to/some/videos"`
+
+## Desktop File
+
+There's an example desktop file you can use.
+
+`cp nextwatch.desktop ~/.local/share/applications/.`
+
+So you can launch it easily.
