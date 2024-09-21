@@ -171,7 +171,7 @@ def show_paths(path, mode="normal", direction="forwards"):
         filter_watched = False
 
     ppath = Path(path)
-    allfiles = glob(f"{path}/*")
+    allfiles = glob(f"{path}*")
     onlydirs = [f for f in allfiles if (ppath / Path(f)).is_dir()]
     dirs = []
 
