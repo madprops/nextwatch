@@ -1,3 +1,5 @@
+-- This is not used yet but might be useful
+
 time = 0
 path = ""
 
