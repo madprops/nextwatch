@@ -41,7 +41,7 @@ def read_config():
     with config_path.open("r") as f:
         try:
             config = json.load(f)
-        except:
+        except json.JSONDecodeError:
             init_config()
 
     if "path" not in config:
@@ -114,7 +114,7 @@ def read_watched():
     with watched_path.open("r") as f:
         try:
             watched = json.load(f)
-        except:
+        except json.JSONDecodeError:
             watched = []
             save_watched()
 
@@ -186,8 +186,7 @@ def show_paths(path, mode="normal", direction="forwards"):
     if config["ignore_dirs"]:
         for d in onlydirs:
             print(d)
-            clean_d = escape(d)
-            all_d_files = glob(os.path.join(clean_d, "**", "*"), recursive=True)
+            all_d_files = glob(os.path.join(escape(d), "**", "*"), recursive=True)
 
             for f in all_d_files:
                 ext = Path(f).suffix[1:].lower()
