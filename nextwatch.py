@@ -2,6 +2,7 @@ import os
 import json
 import sys
 from glob import glob
+from glob import escape
 from subprocess import Popen, PIPE
 from pathlib import Path
 
@@ -178,13 +179,15 @@ def show_paths(path, mode="normal", direction="forwards"):
         filter_watched = False
 
     ppath = Path(path)
-    allfiles = glob(f"{path}*")
+    allfiles = glob(f"{escape(path)}*")
     onlydirs = [f for f in allfiles if (ppath / Path(f)).is_dir()]
     dirs = []
 
     if config["ignore_dirs"]:
         for d in onlydirs:
-            all_d_files = glob(os.path.join(d, "**", "*"), recursive=True)
+            print(d)
+            clean_d = escape(d)
+            all_d_files = glob(os.path.join(clean_d, "**", "*"), recursive=True)
 
             for f in all_d_files:
                 ext = Path(f).suffix[1:].lower()
