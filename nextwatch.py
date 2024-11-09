@@ -185,7 +185,6 @@ def show_paths(path, mode="normal", direction="forwards"):
 
     if config["ignore_dirs"]:
         for d in onlydirs:
-            print(d)
             all_d_files = glob(os.path.join(escape(d), "**", "*"), recursive=True)
 
             for f in all_d_files:
